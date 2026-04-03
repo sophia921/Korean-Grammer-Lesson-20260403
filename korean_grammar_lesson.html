@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>피동 표현과 인용 표현 — 중학교 2학년 국어</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E4DFD6;
+    --text: #1A1714;
+    --text-muted: #6B6560;
+    --text-hint: #A09890;
+    --purple-bg: #EEEDFE;
+    --purple-mid: #534AB7;
+    --purple-dark: #3C3489;
+    --teal-bg: #E1F5EE;
+    --teal-mid: #0F6E56;
+    --teal-dark: #085041;
+    --amber-bg: #FAEEDA;
+    --amber-mid: #854F0B;
+    --amber-dark: #633806;
+    --red-bg: #FCEBEB;
+    --red-mid: #A32D2D;
+    --correct: #E1F5EE;
+    --correct-border: #0F6E56;
+    --correct-text: #085041;
+    --wrong: #FCEBEB;
+    --wrong-border: #A32D2D;
+    --wrong-text: #791F1F;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* Layout */
+  .page-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* Header */
+  .page-header {
+    padding: 40px 0 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .page-header .meta {
+    font-size: 12px;
+    color: var(--text-hint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+  .page-header p {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  /* Step Navigation */
+  .step-nav {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .step-btn {
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .step-btn:hover:not(.active) {
+    background: var(--bg);
+    border-color: #C5BFBA;
+  }
+  .step-btn.active {
+    background: var(--text);
+    border-color: var(--text);
+    color: #fff;
+    font-weight: 500;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    margin-bottom: 24px;
+  }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-hint);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 3px;
+    background: var(--text);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 14px;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 99px;
+    letter-spacing: 0.02em;
+  }
+  .badge-purple { background: var(--purple-bg); color: var(--purple-dark); }
+  .badge-teal   { background: var(--teal-bg);   color: var(--teal-dark);   }
+  .badge-amber  { background: var(--amber-bg);  color: var(--amber-dark);  }
+
+  /* Sentence highlight */
+  .hl-p { background: var(--purple-bg); color: var(--purple-dark); border-radius: 3px; padding: 0 4px; font-weight: 500; }
+  .hl-q { background: var(--teal-bg);   color: var(--teal-dark);   border-radius: 3px; padding: 0 4px; font-weight: 500; }
+
+  /* Sentence box */
+  .sentence-box {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    margin-bottom: 8px;
+  }
+
+  /* Comparison pair */
+  .pair-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .pair-arrow { color: var(--text-hint); font-size: 16px; }
+
+  /* Textarea */
+  textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.15s;
+  }
+  textarea:focus { outline: none; border-color: var(--purple-mid); }
+
+  /* Input */
+  input[type="text"] {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: border-color 0.15s;
+  }
+  input[type="text"]:focus { outline: none; border-color: var(--purple-mid); }
+
+  /* Buttons */
+  .btn {
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--bg); border-color: #C5BFBA; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary {
+    background: var(--text);
+    border-color: var(--text);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #333; border-color: #333; }
+
+  /* Quiz options */
+  .quiz-opt {
+    width: 100%;
+    text-align: left;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .quiz-opt:hover:not(.disabled) { background: var(--bg); border-color: #C5BFBA; }
+  .quiz-opt .opt-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    color: var(--text-hint);
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .quiz-opt.correct { background: var(--correct); border-color: var(--correct-border); color: var(--correct-text); }
+  .quiz-opt.correct .opt-num { background: var(--correct-border); border-color: var(--correct-border); color: #fff; }
+  .quiz-opt.wrong { background: var(--wrong); border-color: var(--wrong-border); color: var(--wrong-text); }
+  .quiz-opt.wrong .opt-num { background: var(--wrong-border); border-color: var(--wrong-border); color: #fff; }
+  .quiz-opt.disabled { cursor: default; pointer-events: none; }
+
+  /* Feedback */
+  .feedback-box {
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    margin-top: 10px;
+    background: var(--bg);
+    color: var(--text-muted);
+    border-left: 3px solid var(--border);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    display: none;
+  }
+  .feedback-box.show { display: block; }
+  .feedback-box.ok { border-color: var(--correct-border); color: var(--correct-text); background: var(--correct); }
+  .feedback-box.ng { border-color: #854F0B; color: var(--amber-dark); background: var(--amber-bg); }
+
+  /* Summary blocks */
+  .summary-row {
+    border-left: 3px solid var(--border);
+    padding-left: 14px;
+    margin-bottom: 14px;
+  }
+  .summary-row.purple { border-color: var(--purple-mid); }
+  .summary-row.teal   { border-color: var(--teal-mid);   }
+
+  /* Afi chips */
+  .chip-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  /* Score strip */
+  .score-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .score-strip strong { font-size: 16px; color: var(--text); }
+
+  /* Grid 2 cols */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* Color info block */
+  .info-block {
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0;
+  }
+  .info-block p { margin: 0; font-size: 13px; }
+
+  /* Intro big question */
+  .big-q {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  /* Action row */
+  .action-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+  /* Indi dots */
+  .step-dots { display: flex; gap: 5px; margin-bottom: 6px; }
+  .step-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+  .step-dot.done { background: var(--text); }
+  .step-dot.cur  { background: var(--purple-mid); }
+
+  /* Quote transform pairs */
+  .qt-row {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+  }
+  .qt-row .qt-type { font-size: 11px; color: var(--text-hint); margin-bottom: 4px; letter-spacing: 0.04em; }
+  .qt-row .qt-direct { font-size: 14px; color: var(--text); margin-bottom: 4px; }
+  .qt-row .qt-indirect { font-size: 14px; }
+
+  /* Animate in */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.25s ease forwards; }
+
+  /* Score result */
+  .result-score {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .result-label { font-size: 14px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header class="page-header">
+    <p class="meta">중학교 2학년 · 국어 문법 · 1차시 45분</p>
+    <h1>피동 표현과 인용 표현</h1>
+    <p>언어가 같은 사건을 어떻게 다르게 표현하는지 탐구합니다.</p>
+  </header>
+
+  <div class="step-nav" id="stepNav">
+    <button class="step-btn active" onclick="goStep(0)">도입 · 5분</button>
+    <button class="step-btn" onclick="goStep(1)">피동 표현 · 15분</button>
+    <button class="step-btn" onclick="goStep(2)">인용 표현 · 15분</button>
+    <button class="step-btn" onclick="goStep(3)">퀴즈 · 7분</button>
+    <button class="step-btn" onclick="goStep(4)">정리 · 3분</button>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-labels">
+      <span id="prog-label">도입</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div id="stepContent"></div>
+
+</div>
+
+<script>
+const STEPS = [
+  {
+    label: "도입",
+    pct: 0,
+    render() {
+      return `
+      <div class="card fade-up">
+        <p class="section-label">오늘의 핵심 질문</p>
+        <p class="big-q">"같은 사건인데, 왜 뉴스마다 다르게 표현할까?"</p>
+        <div class="sentence-box">A: <span class="hl-p">경찰이</span> 범인을 <span class="hl-p">잡았다.</span></div>
+        <div class="sentence-box" style="margin-bottom:14px;">B: 범인이 <span class="hl-p">경찰에게 잡혔다.</span></div>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">두 문장은 같은 사건입니다. 어떤 차이가 느껴지나요?</p>
+        <p class="section-label">내 생각 적기</p>
+        <textarea id="intro-think" placeholder="A와 B 문장이 주는 느낌이 어떻게 다른지 자유롭게 써 보세요..."></textarea>
+        <div class="action-row">
+          <button class="btn btn-primary" onclick="goStep(1)">다음 단계 →</button>
+        </div>
+      </div>
+      <div class="card fade-up" style="animation-delay:0.05s;">
+        <p class="section-label">오늘 배울 것</p>
+        <div class="grid2" style="margin-top:4px;">
+          <div class="info-block" style="background:var(--purple-bg);">
+            <p style="font-size:12px;color:var(--purple-mid);font-weight:700;margin-bottom:4px;">피동 표현</p>
+            <p style="color:var(--purple-dark);">주어가 동작을 당하는 표현 방식</p>
+          </div>
+          <div class="info-block" style="background:var(--teal-bg);">
+            <p style="font-size:12px;color:var(--teal-mid);font-weight:700;margin-bottom:4px;">인용 표현</p>
+            <p style="color:var(--teal-dark);">다른 이의 말이나 글을 가져오는 방식</p>
+          </div>
+        </div>
+      </div>`;
+    }
+  },
+  {
+    label: "피동 표현",
+    pct: 25,
+    render() {
+      return `
+      <div class="card fade-up">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <span class="badge badge-purple">피동 표현</span>
+          <span style="font-size:13px;color:var(--text-muted);">주어가 동작을 '당하는' 표현</span>
+        </div>
+        <p class="section-label">능동 → 피동 변환 관찰</p>
+        <div style="margin-bottom:14px;">
+          ${[
+            ["고양이가 쥐를 잡았다.", "쥐가 고양이에게 잡혔다.", "-히-"],
+            ["바람이 문을 열었다.", "문이 바람에 열렸다.", "-리-"],
+            ["사람들이 그를 비난했다.", "그가 사람들에게 비난받았다.", "-받-"],
+          ].map(([a,b,t])=>`
+          <div class="pair-row">
+            <span style="font-size:14px;">${a}</span>
+            <span class="pair-arrow">→</span>
+            <span style="font-size:14px;"><span class="hl-p">${b}</span> <span class="badge badge-purple" style="margin-left:4px;">${t}</span></span>
+          </div>`).join("")}
+        </div>
+        <p class="section-label">피동 접미사 정리</p>
+        <div class="chip-wrap" style="margin-bottom:16px;">
+          ${["-이-","-히-","-리-","-기-","-되-","-받-","-당하-"].map(s=>`<span class="chip" style="background:var(--purple-bg);color:var(--purple-dark);border-color:#CECBF6;">${s}</span>`).join("")}
+        </div>
+        <p class="section-label">직접 만들어 보기</p>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">"선생님이 학생을 칭찬했다." → 피동문으로 바꿔 보세요.</p>
+        <input type="text" id="passive-input" placeholder="피동문을 입력하세요...">
+        <div id="passive-feedback" class="feedback-box"></div>
+        <div class="action-row">
+          <button class="btn" onclick="checkPassive()">확인하기</button>
+          <button class="btn btn-primary" onclick="goStep(2)">인용 표현으로 →</button>
+        </div>
+      </div>
+      <div class="card fade-up" style="animation-delay:0.05s;">
+        <p class="section-label">탐구 질문</p>
+        <p style="font-size:14px;color:var(--text);margin-bottom:10px;">뉴스에서 피동 표현을 자주 쓰는 이유는 무엇일까요?<br><span style="font-size:13px;color:var(--text-muted);">예: '범인이 체포되었다' vs '경찰이 범인을 체포했다'</span></p>
+        <textarea id="passive-think" placeholder="어떤 효과가 있을지 자유롭게 생각해 보세요..." style="min-height:64px;"></textarea>
+      </div>`;
+    }
+  },
+  {
+    label: "인용 표현",
+    pct: 50,
+    render() {
+      return `
+      <div class="card fade-up">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <span class="badge badge-teal">인용 표현</span>
+          <span style="font-size:13px;color:var(--text-muted);">다른 이의 말을 가져오는 방식</span>
+        </div>
+        <p class="section-label">직접 인용 vs 간접 인용</p>
+        <div class="qt-row">
+          <p class="qt-type">직접 인용 — 원래 말 그대로 · "…(이)라고"</p>
+          <p class="qt-direct">그는 <span class="hl-q">"내일 꼭 오겠다"라고</span> 말했다.</p>
+        </div>
+        <div class="qt-row" style="margin-bottom:14px;">
+          <p class="qt-type">간접 인용 — 의미만 옮김 · "…(다/냐/라/자)고"</p>
+          <p class="qt-direct">그는 <span class="hl-q">내일 꼭 오겠다고</span> 말했다.</p>
+        </div>
+        <p class="section-label">문장 유형별 간접 인용 어미</p>
+        <div class="grid2" style="margin-bottom:16px;">
+          ${[["평서문","~다고"],["의문문","~냐고/(으)냐고"],["명령문","~(으)라고"],["청유문","~자고"]].map(([t,e])=>`
+          <div class="info-block" style="background:var(--teal-bg);">
+            <p style="font-size:11px;color:var(--teal-mid);font-weight:700;margin-bottom:3px;">${t}</p>
+            <p style="font-size:14px;color:var(--teal-dark);font-weight:500;">${e}</p>
+          </div>`).join("")}
+        </div>
+        <p class="section-label">직접 → 간접 변환 연습</p>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">선생님: <strong style="color:var(--text);">"숙제를 꼭 해 와라."</strong> → 간접 인용으로 바꿔 보세요.</p>
+        <input type="text" id="quote-input" placeholder="간접 인용문을 입력하세요...">
+        <div id="quote-feedback" class="feedback-box"></div>
+        <div class="action-row">
+          <button class="btn" onclick="checkQuote()">확인하기</button>
+          <button class="btn btn-primary" onclick="goStep(3)">퀴즈로 →</button>
+        </div>
+      </div>
+      <div class="card fade-up" style="animation-delay:0.05s;">
+        <p class="section-label">탐구 질문</p>
+        <p style="font-size:14px;color:var(--text);margin-bottom:10px;">직접 인용과 간접 인용은 각각 어떤 효과가 있을까요?<br><span style="font-size:13px;color:var(--text-muted);">SNS, 뉴스, 소설에서 어떻게 다르게 쓰일지 생각해 보세요.</span></p>
+        <textarea id="quote-think" placeholder="자유롭게 써 보세요..." style="min-height:64px;"></textarea>
+      </div>`;
+    }
+  },
+  {
+    label: "퀴즈",
+    pct: 75,
+    score: 0,
+    cur: 0,
+    answered: [],
+    quizzes: [
+      {
+        q: "다음 중 피동 표현이 포함된 문장은?",
+        opts: ["나는 밥을 먹었다.", "친구가 나에게 선물을 줬다.", "창문이 바람에 열렸다.", "선생님이 학생을 가르쳤다."],
+        ans: 2,
+        ex: "'열렸다'는 '-리-' 피동 접미사가 붙은 피동 표현입니다."
+      },
+      {
+        q: '"빨리 집에 가자."를 간접 인용으로 바르게 바꾼 것은?',
+        opts: ["빨리 집에 가자고 말했다.", "빨리 집에 가라고 말했다.", "빨리 집에 가냐고 말했다.", "빨리 집에 간다고 말했다."],
+        ans: 0,
+        ex: "청유문은 '-자고'로 간접 인용합니다."
+      },
+      {
+        q: "뉴스에서 '용의자가 체포되었다'처럼 피동 표현을 쓰는 주된 이유는?",
+        opts: ["문장을 짧게 만들기 위해", "행위자보다 사건 자체에 초점을 맞추기 위해", "과거 시제를 나타내기 위해", "높임 표현을 쓰기 위해"],
+        ans: 1,
+        ex: "피동 표현은 행위자를 숨기거나 사건 자체를 강조할 때 사용됩니다."
+      },
+      {
+        q: "다음 중 직접 인용 표현이 쓰인 문장은?",
+        opts: ["그녀는 내일 온다고 했다.", "선생님께서 조용히 하라고 하셨다.", '그는 "지금 바로 출발하겠다"라고 선언했다.', "친구가 같이 가자고 했다."],
+        ans: 2,
+        ex: "직접 인용은 원래 말을 따옴표로 묶어 그대로 옮깁니다."
+      },
+    ],
+    render() {
+      const q = this.quizzes[this.cur];
+      const done = this.answered[this.cur] !== undefined;
+      const labels = ["①","②","③","④"];
+      return `
+      <div class="score-strip">
+        <span>문제 ${this.cur+1} / ${this.quizzes.length}</span>
+        <strong>${this.score} / ${this.quizzes.length}점</strong>
+      </div>
+      <div class="progress-track" style="margin-bottom:20px;">
+        <div class="progress-fill" style="width:${Math.round(this.cur/this.quizzes.length*100)}%"></div>
+      </div>
+      <div class="card fade-up">
+        <p class="card-title">${q.q}</p>
+        ${q.opts.map((o,i)=>{
+          let cls = "quiz-opt";
+          if(done){
+            cls += " disabled";
+            if(i===q.ans) cls += " correct";
+            else if(i===this.answered[this.cur]&&i!==q.ans) cls += " wrong";
+          }
+          return `<button class="${cls}" onclick="answerQuiz(${i})"><span class="opt-num">${labels[i]}</span>${o}</button>`;
+        }).join("")}
+        ${done ? `<div class="feedback-box show ok" style="margin-top:4px;">${q.ex}</div>` : ""}
+        <div class="action-row">
+          ${done && this.cur < this.quizzes.length-1 ? `<button class="btn btn-primary" onclick="nextQuiz()">다음 문제 →</button>` : ""}
+          ${done && this.cur === this.quizzes.length-1 ? `<button class="btn btn-primary" onclick="goStep(4)">결과 보기 →</button>` : ""}
+        </div>
+      </div>`;
+    }
+  },
+  {
+    label: "정리",
+    pct: 100,
+    render() {
+      const s3 = STEPS[3];
+      const pct = Math.round(s3.score / s3.quizzes.length * 100);
+      const msg = pct === 100 ? "완벽해요! 모두 맞췄어요." : pct >= 75 ? "잘 했어요! 조금만 더 복습해 봐요." : "한 번 더 복습해 볼까요?";
+      return `
+      <div class="card fade-up">
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:4px;">
+          <span class="result-score">${s3.score}<span style="font-size:24px;color:var(--text-muted);">/${s3.quizzes.length}</span></span>
+          <span style="font-size:14px;color:var(--text-muted);">${pct}%</span>
+        </div>
+        <p class="result-label" style="margin-bottom:14px;">${msg}</p>
+        <div class="progress-track" style="margin-bottom:20px;">
+          <div class="progress-fill" style="width:${pct}%"></div>
+        </div>
+        <p class="section-label">핵심 정리</p>
+        <div class="summary-row purple" style="margin-bottom:12px;">
+          <p style="font-size:13px;font-weight:700;color:var(--purple-dark);margin-bottom:3px;">피동 표현</p>
+          <p style="font-size:13px;color:var(--text-muted);">주어가 동작을 당함 · 접미사 -이/-히/-리/-기-/-되/-받/-당하- · 행위자를 숨기거나 사건에 집중할 때 사용</p>
+        </div>
+        <div class="summary-row teal" style="margin-bottom:16px;">
+          <p style="font-size:13px;font-weight:700;color:var(--teal-dark);margin-bottom:3px;">인용 표현</p>
+          <p style="font-size:13px;color:var(--text-muted);">직접 인용("…라고") vs 간접 인용(…다고/냐고/라고/자고) · 정보 출처를 밝혀 신뢰성 확보</p>
+        </div>
+        <p class="section-label">오늘 가장 흥미로웠던 점은?</p>
+        <textarea id="final-think" placeholder="자유롭게 써 보세요..." style="min-height:64px;"></textarea>
+        <div class="action-row">
+          <button class="btn" onclick="goStep(0)">처음으로 돌아가기</button>
+          <button class="btn" onclick="goStep(3)">퀴즈 다시 풀기</button>
+        </div>
+      </div>
+      <div class="card fade-up" style="animation-delay:0.05s;">
+        <p class="section-label">더 탐구하기</p>
+        <p style="font-size:14px;color:var(--text);margin-bottom:10px;">다음 뉴스 기사에서 피동 표현과 인용 표현을 찾아보세요.</p>
+        <div class="sentence-box" style="font-size:13px;line-height:1.8;margin-bottom:0;">
+          시청 앞 도로에서 교통사고가 <span class="hl-p">발생했다</span>. 부상자 3명이 인근 병원으로 <span class="hl-p">이송되었다</span>. 목격자 A씨는 <span class="hl-q">"갑자기 차가 돌진했다"라고</span> 전했으며, 경찰은 <span class="hl-q">사고 원인을 조사 중이라고</span> 밝혔다.
+        </div>
+        <p style="font-size:12px;color:var(--text-hint);margin-top:8px;"><span class="hl-p" style="font-size:11px;">보라색</span> = 피동 표현 &nbsp;·&nbsp; <span class="hl-q" style="font-size:11px;">초록색</span> = 인용 표현</p>
+      </div>`;
+    }
+  }
+];
+
+let curStep = 0;
+
+function goStep(n) {
+  curStep = n;
+  document.querySelectorAll(".step-btn").forEach((b,i) => {
+    b.classList.toggle("active", i===n);
+  });
+  const s = STEPS[n];
+  document.getElementById("progFill").style.width = s.pct + "%";
+  document.getElementById("prog-pct").textContent = s.pct + "%";
+  document.getElementById("prog-label").textContent = s.label;
+  document.getElementById("stepContent").innerHTML = s.render();
+}
+
+function checkPassive() {
+  const v = document.getElementById("passive-input").value.trim();
+  const fb = document.getElementById("passive-feedback");
+  if(!v){ fb.className="feedback-box show ng"; fb.textContent="문장을 입력해 주세요."; return; }
+  const hasPdg = /이|히|리|기|되|받|당/.test(v) && /(었|았|겠|ㅎ)/.test(v)||/됩니다|됩니다|받았|당했/.test(v);
+  if(hasPdg||/칭찬받/.test(v)){
+    fb.className="feedback-box show ok";
+    fb.textContent="피동 표현이 포함된 것 같아요! 잘 했어요.";
+  } else {
+    fb.className="feedback-box show ng";
+    fb.textContent="피동 접미사(-이/-히/-리/-기/-받-)를 찾아보세요. 예: '칭찬받았다'";
+  }
+}
+
+function checkQuote() {
+  const v = document.getElementById("quote-input").value.trim();
+  const fb = document.getElementById("quote-feedback");
+  if(!v){ fb.className="feedback-box show ng"; fb.textContent="문장을 입력해 주세요."; return; }
+  if(v.includes("라고")){
+    fb.className="feedback-box show ok";
+    fb.textContent="'-(으)라고'를 사용했네요! 명령문 간접 인용입니다. 정확해요.";
+  } else {
+    fb.className="feedback-box show ng";
+    fb.textContent="명령문 간접 인용은 '-(으)라고'를 씁니다. 다시 시도해보세요.";
+  }
+}
+
+function answerQuiz(i) {
+  const s = STEPS[3];
+  if(s.answered[s.cur] !== undefined) return;
+  s.answered[s.cur] = i;
+  if(i === s.quizzes[s.cur].ans) s.score++;
+  document.getElementById("stepContent").innerHTML = s.render();
+}
+
+function nextQuiz() {
+  STEPS[3].cur++;
+  document.getElementById("stepContent").innerHTML = STEPS[3].render();
+}
+
+goStep(0);
+</script>
+</body>
+</html>
